@@ -11,6 +11,14 @@ use Illuminate\Support\Arr;
 
 class UsuarioController extends Controller
 {
+
+    function __construct(){
+        $this->middleware('permission:ver-usuario|crear-usuario|editar-usuario|borrar-usuario', ['only' => ['index']]);
+        $this->middleware('permission:crear-usuario', ['only' => ['create', 'store']]);
+        $this->middleware('permission:editar-usuario', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:borrar-usuario', ['only' => ['destroy']]);
+        $this->middleware('permission:inspeccionar-usuario', ['only' => ['show']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -18,6 +26,7 @@ class UsuarioController extends Controller
      */
     public function index()
     {
+
         $usuarios = User::paginate(5);
         return view('usuarios.index', compact('usuarios'));
     }
@@ -30,7 +39,7 @@ class UsuarioController extends Controller
     public function create()
     {
         $roles = Role::pluck('name', 'name')->all();
-        return view('roles.crear', compact('roles'));
+        return view('usuarios.crear', compact('roles'));
     }
 
     /**
@@ -67,7 +76,8 @@ class UsuarioController extends Controller
      */
     public function show($id)
     {
-        //
+        $usuario = User::find($id);
+        return view('usuarios.show', compact('usuario'));
     }
 
     /**
@@ -96,18 +106,23 @@ class UsuarioController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'email' => 'required|email|unique:users,email' . $id ,
-            'password' => 'required|same:confirm-password',
-            'roles' => 'required'
+            'email' => 'required|email|unique:users,email,'.$id,
+            'password' => 'same:confirm-password',
+            'roles' => 'required',
+            'instagram' => 'required'
         ]);
 
+
+
         $input = $request->all();
-        if(!emply($input['password'])){
+        if(!empty($input['password'])){
             $input['password'] = Hash::make($input['password']);
         }
         else{
             $input = Arr::except($input, array('password'));
         }
+
+        
 
         $user = User::find($id);
         $user->update($input);

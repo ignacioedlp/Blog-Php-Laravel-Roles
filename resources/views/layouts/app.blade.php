@@ -18,6 +18,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
 </head>
 <body>
     <div id="app">
@@ -33,7 +34,18 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-
+                        <a class="nav-link" href="/home">
+                            <i class=" fas fa-building"></i><span>Dashboard</span>
+                        </a>
+                        <a class="nav-link" href="/usuarios">
+                            <i class=" fas fa-building"></i><span>Usuarios</span>
+                        </a>
+                        <a class="nav-link" href="/roles">
+                            <i class=" fas fa-building"></i><span>Roles</span>
+                        </a>
+                        <a class="nav-link" href="/blogs">
+                            <i class=" fas fa-building"></i><span>Blogs</span>
+                        </a>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
