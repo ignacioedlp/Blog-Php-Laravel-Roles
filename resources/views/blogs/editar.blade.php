@@ -36,7 +36,7 @@
                                 <div class="form-group">
                                     <div class="form-group">
                                         <label for="name">Contenido</label>
-                                        {!! Form::text('contenido', null, array('class' => 'form-control'))!!}
+                                        {!! Form::textarea('contenido', null, array('class' => 'form-control'))!!}
                                     </div>
                                 </div>
                             </div>

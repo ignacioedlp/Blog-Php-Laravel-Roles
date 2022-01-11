@@ -45,7 +45,7 @@ class BlogController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         $request->validate([
             'titulo' => 'required',
             'contenido' => 'required'
@@ -65,7 +65,8 @@ class BlogController extends Controller
      */
     public function show($id)
     {
-        //
+        $blog = Blog::find($id);
+        return view('blogs.show', compact('blog'));
     }
 
     /**

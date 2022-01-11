@@ -30,7 +30,7 @@
 
 
                         <div class="row">
-                            <div class="col-xs-12 col-sm-12 col-md-12">
+                            <div class="col-xs-12 col-sm-12 col-md-12 ">
                                 <div class="form-group">
                                     <label for="name">UserId</label>
                                     <input type="text" name="user_id" id="user_id" class="form-control" value="{{$userid}}" readonly>
@@ -50,7 +50,7 @@
                                 <div class="form-group">
                                     <div class="form-group">
                                         <label for="name">Contenido</label>
-                                        {!! Form::text('contenido', null, array('class' => 'form-control'))!!}
+                                        {!! Form::textarea('contenido', null, array('class' => 'form-control'))!!}
                                     </div>
                                 </div>
                             </div>
