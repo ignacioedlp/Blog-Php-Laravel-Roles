@@ -8,6 +8,7 @@ use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Arr;
+use PDF;
 
 class UsuarioController extends Controller
 {
@@ -15,7 +16,7 @@ class UsuarioController extends Controller
     function __construct(){
         $this->middleware('permission:ver-usuario|crear-usuario|editar-usuario|borrar-usuario', ['only' => ['index']]);
         $this->middleware('permission:crear-usuario', ['only' => ['create', 'store']]);
-        $this->middleware('permission:editar-usuario', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:editar-usuario|editar-miusuario', ['only' => ['edit', 'update']]);
         $this->middleware('permission:borrar-usuario', ['only' => ['destroy']]);
         $this->middleware('permission:inspeccionar-usuario', ['only' => ['show']]);
     }
@@ -41,6 +42,8 @@ class UsuarioController extends Controller
         $roles = Role::pluck('name', 'name')->all();
         return view('usuarios.crear', compact('roles'));
     }
+
+
 
     /**
      * Store a newly created resource in storage.
@@ -80,6 +83,21 @@ class UsuarioController extends Controller
         return view('usuarios.show', compact('usuario'));
     }
 
+
+    public function pdf()
+    {
+        $usuarios = User::paginate();
+        $usuariosSorted = $usuarios->sortByDesc('id');
+        $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true, 'dpi' => 150, 'defaultFont' => 'sans-serif']);
+        $pdf->loadView('usuarios.pdf', compact('usuariosSorted'));
+        $pdf->setPaper('A3', 'portrait');
+
+
+        return $pdf->stream();
+
+        //return view('usuarios.pdf', compact('usuarios'));
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -104,17 +122,28 @@ class UsuarioController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users,email,'.$id,
             'password' => 'same:confirm-password',
             'roles' => 'required',
-            'instagram' => 'required'
+            'avatar' => 'image|mimes:jpeg,png,jpg|max:2048'
         ]);
 
-
-
         $input = $request->all();
+
+        if ($avatar = $request->file('avatar')){
+            $rutaGuardarImg = 'img/profiles/';
+            $imagenAvatar = date('YmdHis') . '.' . $avatar->getClientOriginalExtension();
+            $avatar->move($rutaGuardarImg, $imagenAvatar);
+            $input['avatar'] = $imagenAvatar;
+        };
+
+
+
+
+
         if(!empty($input['password'])){
             $input['password'] = Hash::make($input['password']);
         }
@@ -122,14 +151,14 @@ class UsuarioController extends Controller
             $input = Arr::except($input, array('password'));
         }
 
-        
 
-        $user = User::find($id);
-        $user->update($input);
+        $usuario = User::find($id);
+
+        $usuario->update($input);
         DB::table('model_has_roles')->where('model_id', $id)->delete();
 
-        $user->assignRole($request->input('roles'));
-        return redirect()->route('usuarios.index');
+        $usuario->assignRole($request->input('roles'));
+        return redirect()->route('usuarios.show', compact('usuario'));
     }
 
     /**
@@ -144,4 +173,7 @@ class UsuarioController extends Controller
         return redirect()->route('usuarios.index');
 
     }
+
+
+
 }

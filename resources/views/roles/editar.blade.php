@@ -36,7 +36,8 @@
                                     <label for="name">Permisos para este Rol:</label>
                                     <br>
                                     @foreach($permission as $value)
-                                        <label>{{ Form::checkbox('permission[]', $value->id, ['class' => 'form-check-input', $value->id, $rolePermission]) }} {{ $value->name }}</label>
+                                        <label>{{ Form::checkbox('permission[]', $value->id, in_array($value->id, $rolePermission) ? true : false, array('class' => 'name')) }}
+                                            {{ $value->name }}</label>
                                         <br>
                                     @endforeach
                                 </div>

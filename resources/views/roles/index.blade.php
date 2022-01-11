@@ -36,7 +36,7 @@
                         </tbody>
                     </table>
                      <div class="pagination justify-content-end">
-                        {!! $roles->links() !!}}
+                        {!! $roles->links() !!}
                     </div>
 
                 </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Blog;
 
+
 class BlogController extends Controller
 {
 
@@ -38,18 +39,23 @@ class BlogController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
+     * @param  int  $userid
      * @return \Illuminate\Http\Response
+     *
      */
     public function store(Request $request)
     {
+        
         $request->validate([
             'titulo' => 'required',
             'contenido' => 'required'
         ]);
-
-        Blog::create($request->all());
+        $blog = new Blog();
+        $blog->create($request->all());
         return redirect()->route('blogs.index');
     }
+
+
 
     /**
      * Display the specified resource.

@@ -2,6 +2,9 @@
 @extends('layouts.app')
 
 @section('content')
+@php
+    $userid = Auth::user()->id;
+@endphp
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -22,15 +25,26 @@
                         </div>
                     @endif
 
-                    {!! Form::open(array('route' => 'blogs.store', 'method' => 'POST'))!!}
+                    {!! Form::open(['route' => ['blogs.store'], 'method' => 'POST'])!!}
+
+
 
                         <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="form-group">
+                                    <label for="name">UserId</label>
+                                    <input type="text" name="user_id" id="user_id" class="form-control" value="{{$userid}}" readonly>
+                                </div>
+                            </div>
+
                             <div class="col-xs-12 col-sm-12 col-md-12">
                                 <div class="form-group">
                                     <label for="name">Titulo</label>
                                     {!! Form::text('titulo', null, array('class' => 'form-control'))!!}
                                 </div>
                             </div>
+
+
 
                             <div class="col-xs-12 col-sm-12 col-md-12">
                                 <div class="form-group">

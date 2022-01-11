@@ -14,6 +14,7 @@
                             <strong>!Revise los campos!</strong>
                                 @foreach ($errors->all() as $error)
                                     <span class="badge badge-danger">{{ $error }}</span>
+
                                 @endforeach
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -21,8 +22,7 @@
                         </div>
                     @endif
 
-                    {!! Form::model($user, ['route' => ['usuarios.update', $user->id], 'method' => 'PATCH'])!!}
-
+                    {!! Form::model($user, ['route' => ['usuarios.update', $user->id], 'method' => 'PATCH', 'files' => true])!!}
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12">
                                 <div class="form-group">
@@ -38,6 +38,13 @@
                                 </div>
                             </div>
 
+
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="form-group">
+                                    <label for="avatar">Avatar</label>
+                                    {!! Form::file('avatar', array('class' => 'form-control my-1'))!!}
+                                </div>
+
                             <div class="col-xs-12 col-sm-12 col-md-12">
                                 <div class="form-group">
                                     <label for="password">Password</label>
@@ -52,10 +59,10 @@
                                 </div>
                             </div>
 
-                            <div class="col-xs-12 col-sm-12 col-md-12">
-                                <div class="form-group">
+                                <div class="col-xs-12 col-sm-12 col-md-12 d-none">
+                                <div class="form-group ">
                                     <label for="">Roles</label>
-                                    {!! Form::select('roles[]', $roles, [] ,array('class' => 'form-control'))!!}
+                                    {!! Form::select('roles[]', $roles,$userRole, array('class' => 'form-control')) !!}
                                 </div>
                             </div>
 
@@ -129,7 +136,7 @@
                                 <button type="submit" class="btn btn-primary">Guardar</button>
                             </div>
                         </div>
-                    {!! Form::close()!!}
+                    {!! Form::close() !!}
                 </div>
             </div>
         </div>

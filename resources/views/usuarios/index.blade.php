@@ -8,9 +8,14 @@
                 <div class="card-header">{{ __('Usuarios') }}</div>
 
                 <div class="card-body">
-                    <a  class="btn btn-primary" href="{{route('usuarios.create')}}">Nuevo</a>
+                    @can('crear-usuario')
+                        <a  class="btn btn-primary" href="{{route('usuarios.create')}}">Nuevo</a>
+                        <a href="{{route('usuarios.pdf')}}" class="btn btn-success">Crear PDF</a>
+                    @endcan
 
-                    <table class="table table-striped mt-2">
+
+
+                    <table class="table table-responsive mt-2">
                         <thead class="">
                             <th scope="col">ID</th>
                             <th scope="col">Nombre</th>
@@ -49,7 +54,7 @@
                         </tbody>
                     </table>
                     <div class="pagination justify-content-end">
-                        {!! $usuarios->links() !!}}
+                        {!! $usuarios->links() !!}
                     </div>
 
                 </div>

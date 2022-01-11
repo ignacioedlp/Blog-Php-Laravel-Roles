@@ -34,6 +34,7 @@ class SeederTablaPermisos extends Seeder
             'borrar-usuario',
             //tabla inspecciones
             'inspeccionar-usuario',
+            'editar-miusuario',
 
         ];
         foreach ($permisos as $permiso) {
