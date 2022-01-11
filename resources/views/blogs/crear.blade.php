@@ -25,8 +25,7 @@
                         </div>
                     @endif
 
-                    {!! Form::open(['route' => ['blogs.store'], 'method' => 'POST'])!!}
-
+                    {!! Form::open(['route' => ['blogs.store'], 'method' => 'POST', 'files' => true])!!}
 
 
                         <div class="row">
@@ -41,6 +40,13 @@
                                 <div class="form-group">
                                     <label for="name">Titulo</label>
                                     {!! Form::text('titulo', null, array('class' => 'form-control'))!!}
+                                </div>
+                            </div>
+
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="form-group">
+                                    <label for="image">Imagen</label>
+                                    {!! Form::file('image', array('class' => 'form-control my-1'))!!}
                                 </div>
                             </div>
 

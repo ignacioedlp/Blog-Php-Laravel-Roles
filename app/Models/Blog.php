@@ -9,7 +9,7 @@ use App\Models\User;
 class Blog extends Model
 {
     use HasFactory;
-    protected $fillable = ['titulo', 'contenido','user_id'];
+    protected $fillable = ['titulo', 'contenido','user_id','image'];
 
 
     public function user(){

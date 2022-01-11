@@ -4,7 +4,7 @@
 @section('content')
 <div class="container " >
     <div class="card">
-        <img class="card-img-top h-25" src="/img/photoBlog.png" alt="Card image cap">
+        <img class="card-img-top h-25" src="/img/Blogs/{{$blog->image}}" alt="Card image cap">
         <div class="card-body">
             <div>
                 <div class="header ">

@@ -48,10 +48,23 @@ class BlogController extends Controller
 
         $request->validate([
             'titulo' => 'required',
-            'contenido' => 'required'
+            'contenido' => 'required',
+            'image' => 'image|mimes:jpeg,png,jpg|max:2048'
         ]);
+
+        $input = $request->all();
+
+        if ($image = $request->file('image')){
+            $rutaGuardarImg = 'img/blogs/';
+            $imagenBlog = date('YmdHis') . '.' . $image->getClientOriginalExtension();
+            $image->move($rutaGuardarImg, $imagenBlog);
+            $input['image'] = $imagenBlog;
+        };
+
+
+
         $blog = new Blog();
-        $blog->create($request->all());
+        $blog->create($input);
         return redirect()->route('blogs.index');
     }
 
